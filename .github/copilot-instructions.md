@@ -82,6 +82,90 @@ Open in Android Studio → File → Open → `D:/Coding/Mobile Projects/coffee_h
 - **Firebase reads**: `ProductRepository.getProducts()` uses `callbackFlow` with Firestore snapshot listener
 - **Firebase writes**: `OrderRepository.createOrder()` uses `await()` with Firestore `add()`
 
+## UI & Design Guidelines
+
+### 🎨 Design Language
+- **Theme:** Coffee-inspired Material Design 3 (brown tones)
+  - **Primary:** #6F4E37 (coffee brown)
+  - **Accent:** #DCC7AA (cream beige)
+  - **Background:** #FFF9F0 (light cream)
+  - **Text:** #2C1810 (dark coffee)
+- **Typography:**  
+  - Titles → `sans-serif-medium`  
+  - Body → `sans-serif-regular`
+- **Icons:** Material Icons, outlined, minimalistic
+- **Spacing:**  
+  - Card padding: 8–12dp  
+  - List margin: 16dp horizontal
+- **Buttons:**  
+  - Primary: filled (brown background, white text)  
+  - Secondary: outlined  
+  - Link actions: text buttons
+- **CardView style:** Rounded corners (12dp), subtle elevation (2dp)
+- **Image loading:** Use Glide for Firebase Storage URLs with placeholder and error images
+
+---
+
+### 🧭 UI Navigation & Layout Flow
+
+#### 👤 Customer Flow
+Splash → Login / Register → Home (menu) → Product Detail → Cart → Checkout → Order History
+
+#### 🧑‍💼 Admin Flow
+Splash → Login → Dashboard → Manage Products → Manage Orders → Revenue Report
+
+
+- After login, check `user.isAdmin`:
+  - If `true` → navigate to AdminDashboardFragment
+  - If `false` → navigate to CustomerHomeFragment
+
+#### Common UI Components
+- BottomNavigationView for customer with 4 tabs: **Home**, **Cart**, **Orders**, **Profile**
+- Toolbar/AppBar with title and back button
+- RecyclerView for lists (products, orders)
+- SearchBar / TextField for searching products
+- Dialog or BottomSheet for actions like “Add Product” or “Update Status”
+- Use ViewBinding (no `findViewById`, no Jetpack Compose)
+
+---
+
+### 🧩 UI Component Mapping
+
+| Role | Fragment / Screen | Description |
+|------|--------------------|--------------|
+| Common | `SplashFragment` | Checks login state and navigates by role |
+| Common | `LoginFragment` / `RegisterFragment` | Firebase Auth screens |
+| Customer | `HomeFragment` | Displays coffee menu with category filter |
+| Customer | `ProductDetailFragment` | Shows selected coffee details, size, quantity, Add to Cart |
+| Customer | `CartFragment` | Displays cart items, total, and checkout button |
+| Customer | `OrderHistoryFragment` | Lists user’s previous orders with statuses |
+| Admin | `AdminDashboardFragment` | Overview: total sales, order count |
+| Admin | `ManageProductsFragment` | CRUD for coffee products |
+| Admin | `ManageOrdersFragment` | Lists all orders and allows updating status |
+
+---
+
+### ⚙️ Copilot Behavior Rules
+When generating or editing UI code:
+- Follow fragment-based navigation (inside `MainActivity`).
+- **Do not create new Activities** unless explicitly mentioned.
+- Respect existing package structure and naming (`com.coffeehub.ui.*`).
+- Generate XML layouts using Material Design 3 components.
+- Use color palette and typography defined above for consistency.
+- For data display, prefer `RecyclerView` + `ListAdapter` + `DiffUtil`.
+- Use placeholder/dummy data **only** when Firebase data context is not available.
+- Keep layouts responsive and visually consistent with the coffee theme UI reference.
+
+---
+
+### ✅ Design Intent Summary
+Copilot should understand that this app’s interface should resemble a **modern coffee shop ordering UI** — elegant, brown-themed, and friendly.  
+UI examples to emulate:
+- Product cards with images, name, price, and “+” button  
+- Bottom navigation for customers  
+- Admin dashboard with simple statistics cards  
+- Checkout screen with subtotal, delivery fee, total, and “Proceed to Checkout” button  
+
 ## If you update this file
 Keep it concise. Preserve file paths. Use exact PowerShell commands (Windows wrapper: `.\gradlew.bat`).
 

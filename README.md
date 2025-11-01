@@ -114,7 +114,36 @@ orders {
 .\gradlew.bat test                     # Run unit tests
 ```
 
-## 🐛 Troubleshooting
+## � Import Sample Data (One-Time Setup)
+
+Sample product data is included in `app/src/main/assets/database.json` (21 products: coffee, tea, drinks).
+
+**To import automatically on first admin login:**
+
+1. Open `AdminDashboardFragment.kt`
+2. In `checkAndImportData()` function, **uncomment this line**:
+   ```kotlin
+   // importData()  // <-- Remove the "//" to enable
+   ```
+3. Rebuild and launch app
+4. Login as admin → data will auto-import on dashboard load
+
+**Manual import via code:**
+```kotlin
+// In AdminDashboardFragment or any admin screen
+lifecycleScope.launch {
+    val (success, failure) = databaseImporter.importProducts()
+    Log.d("Import", "Success: $success, Failed: $failure")
+}
+```
+
+**What gets imported:**
+- 21 products from `database.json`
+- Categories: Popular, Special, Cappuccino, Latte, Americano
+- Prices converted USD → VND (1 USD = 24,000 VND)
+- Firebase Storage URLs for product images (already uploaded)
+
+## �🐛 Troubleshooting
 
 **Build fails with "google-services.json not found":**
 - Download from Firebase Console → Project Settings → Your apps → Download `google-services.json`

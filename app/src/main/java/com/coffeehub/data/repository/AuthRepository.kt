@@ -32,7 +32,17 @@ class AuthRepository @Inject constructor(
                 AuthResult.Error("Login failed")
             }
         } catch (e: Exception) {
-            AuthResult.Error(e.message ?: "Unknown error occurred")
+            android.util.Log.e("AuthRepository", "Login error", e)
+            val errorMessage = when {
+                e.message?.contains("network error", ignoreCase = true) == true -> 
+                    "Network error. Please check your internet connection and try again."
+                e.message?.contains("timeout", ignoreCase = true) == true -> 
+                    "Connection timeout. Please check your internet and try again."
+                e.message?.contains("unreachable host", ignoreCase = true) == true -> 
+                    "Cannot reach Firebase servers. Check your network connection."
+                else -> e.message ?: "Unknown error occurred"
+            }
+            AuthResult.Error(errorMessage)
         }
     }
 
