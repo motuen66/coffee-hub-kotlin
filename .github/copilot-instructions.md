@@ -1,63 +1,89 @@
 ## Coffee Hub — AI assistant quick start
 
-Purpose: give an AI coding assistant the minimal, concrete knowledge to be productive in this Kotlin Android repo.
+**Purpose:** Give an AI coding assistant the minimal, concrete knowledge to be productive in this Kotlin Android coffee shop app.
 
-Overview
-- Kotlin Android app using MVVM + Repository pattern. Clean-ish separation: `data`, `domain`, `ui`, `viewmodel`, `di`.
-- DI: Hilt. Networking: Retrofit + OkHttp + Gson. Persistence: Room + DataStore + Firebase.
+## Overview
+- **Project Type**: Android app (Kotlin) for coffee shop sales with customer and admin features
+- **Architecture**: MVVM + Repository pattern with clean separation: `domain`, `data`, `ui`, `viewmodel`, `di`
+- **Backend**: **Firebase-only** (Auth, Firestore, Storage) — no external API server
+- **DI**: Hilt/Dagger
+- **Package**: `com.coffeehub` (namespace and applicationId)
 
-Key paths (examples to open immediately)
-- App bootstrap: `app/src/main/java/com/example/financemanagement/App.kt`
-- DI modules: `app/src/main/java/com/example/financemanagement/di/` (NetworkModule.kt, DatabaseModule.kt, RepositoryModule.kt)
-- API interface: `app/src/main/java/com/example/financemanagement/data/remote/api/ApiService.kt`
-- Local DB: `app/src/main/java/com/example/financemanagement/data/local/db/AppDatabase.kt`
-- Constants & base URL: `app/src/main/java/com/example/financemanagement/utils/Constants.kt` and `secrets.properties`
-- Navigation: `app/src/main/res/navigation/nav_graph.xml`
-- UI entry: `app/src/main/java/com/example/financemanagement/ui/main/MainActivity.kt`
+## Key paths (open these first)
+- **App entry**: `app/src/main/java/com/coffeehub/CoffeeHubApp.kt`
+- **MainActivity**: `app/src/main/java/com/coffeehub/ui/MainActivity.kt`
+- **DI modules**: `app/src/main/java/com/coffeehub/di/` (FirebaseModule.kt, AppModule.kt)
+- **Domain models**: `app/src/main/java/com/coffeehub/domain/model/` (User.kt, Product.kt, Order.kt, OrderItem.kt)
+- **Repositories**: `app/src/main/java/com/coffeehub/data/repository/` (AuthRepository.kt, ProductRepository.kt, OrderRepository.kt)
+- **ViewModels**: `app/src/main/java/com/coffeehub/viewmodel/` (AuthViewModel.kt, ProductViewModel.kt, OrderViewModel.kt)
+- **Navigation**: `app/src/main/res/navigation/nav_graph.xml`
+- **UI**:
+  - Auth: `app/src/main/java/com/coffeehub/ui/auth/` (LoginFragment, RegisterFragment)
+  - Customer: `app/src/main/java/com/coffeehub/ui/customer/` (ProductListFragment, etc.)
+  - Admin: `app/src/main/java/com/coffeehub/ui/admin/` (AdminDashboardFragment, etc.)
 
-Concrete architecture notes (why it matters)
-- Fragments emit UI events → ViewModels (in `viewmodel/`) own UI state as StateFlow/Flow.
-- Repositories abstract data sources and are injected by Hilt. They mediate between `ApiService` and Room DAOs.
-- Token handling: JWT saved in DataStore via `data/local/TokenManager.kt`. OkHttp interceptor (in NetworkModule) adds Authorization header.
+## Architecture details (why it matters)
+- **Flow**: Fragment → ViewModel (StateFlow/Flow) → Repository → Firebase (Auth, Firestore, Storage)
+- **Auth**: Firebase Authentication with email/password. User data stored in Firestore `users` collection with `isAdmin` field for role-based navigation.
+- **Products**: Stored in Firestore `products` collection. Admin can CRUD products; customers can browse and search.
+- **Orders**: Stored in Firestore `orders` collection. Customers create orders; admin updates order status (PENDING → PREPARING → READY → COMPLETED).
+- **ViewBinding**: All fragments use ViewBinding (not Compose). Access views via `binding.viewId`.
+- **No Retrofit/API layer**: Repositories directly interact with Firebase SDK (FirebaseAuth, FirebaseFirestore, FirebaseStorage).
 
-Developer workflows (Windows / PowerShell)
-- Open project: Android Studio → Open folder `D:/Coding/Mobile Projects/coffee_hub` → let Gradle sync.
-- Quick CLI (from project root):
-  - Clean: `.
-    \gradlew.bat clean`
-  - Build debug: `.
-    \gradlew.bat assembleDebug`
-  - Install on device/emulator: `.
-    \gradlew.bat installDebug`
-  - Unit tests: `.
-    \gradlew.bat test`
-  - Instrumented tests: `.
-    \gradlew.bat connectedAndroidTest`
+## Developer workflows (Windows / PowerShell)
+Open in Android Studio → File → Open → `D:/Coding/Mobile Projects/coffee_hub` → Gradle sync.
 
-Important build/codegen details
-- KAPT/Hilt and Room generate sources under `app/build/generated/` and `app/build/tmp`. If you change packages/namespaces, run `clean` to remove stale generated classes.
-- Namespace & applicationId live in `app/build.gradle.kts` (fields `namespace` and `applicationId`) — changing them requires moving package folders and updating Kotlin package declarations.
+**CLI commands** (from project root):
+```powershell
+.\gradlew.bat clean                    # Clean build artifacts
+.\gradlew.bat assembleDebug            # Build debug APK
+.\gradlew.bat installDebug             # Install on device/emulator
+.\gradlew.bat test                     # Run unit tests
+.\gradlew.bat connectedAndroidTest     # Run instrumented tests
+```
 
-Project-specific conventions & gotchas (actionable)
-- UI: uses ViewBinding (not Compose). Prefer using `binding` from generated binding classes in fragments.
-- Navigation graph references fully-qualified fragment class names (see `nav_graph.xml`) — update those if packages change.
-- DB name literal: `"finance_management_database"` appears in `di/DatabaseModule.kt` — rename intentionally if migrating DB schema or app name.
-- README contains examples and endpoints; `secrets.properties` contains BASE_URL for remote API. Confirm before changing.
+## Important build/codegen details
+- **KAPT/Hilt**: Generates code under `app/build/generated/` and `app/build/tmp`. Run `.\gradlew.bat clean` after package/namespace changes to remove stale classes.
+- **Namespace & applicationId**: Both set to `com.coffeehub` in `app/build.gradle.kts`. Changing requires moving source folders and updating all package declarations.
+- **Firebase config**: `app/google-services.json` must be present (download from Firebase Console for package `com.coffeehub`).
 
-Integration points & external deps
-- Backend API: demo base URL in `secrets.properties` and `Constants.kt` — endpoints documented in `README.md`.
-- Hilt + Room + Retrofit interplay: Hilt modules in `di/` provide singletons for Retrofit, OkHttp, Room DB and DAOs.
+## Firebase setup (required before first run)
+1. Create Firebase project at [Firebase Console](https://console.firebase.google.com/)
+2. Add Android app with package name: `com.coffeehub`
+3. Download `google-services.json` → place in `app/` directory
+4. Enable **Authentication** (Email/Password)
+5. Create **Firestore** database (test mode initially)
+6. Enable **Firebase Storage**
 
-When to ask for clarification
-- If a change touches package names / `applicationId`/`namespace` — ask before making it. This is invasive: requires moving many files, cleaning generated code, and updating tests.
-- If modifying DB schema or table/entity names, confirm migration approach.
+## Firestore collections structure
+- **users**: `{ id, email, name, isAdmin: boolean, createdAt }`
+- **products**: `{ id, name, description, price, imageUrl, category, stock, isAvailable, createdAt }`
+- **orders**: `{ id, customerId, customerName, items: [OrderItem], total, status, timestamp, notes }`
 
-Where to look for more examples
-- Auth flow: `app/src/main/java/com/example/financemanagement/ui/auth/*` + `viewmodel/AuthViewModel.kt` + `data/repository/AuthRepository*`.
-- Dashboard & transactions: `ui/dashboard/`, `data/repository/TransactionRepository*` and `data/remote/models`.
+## Project-specific conventions & gotchas
+- **ViewBinding**: Every fragment inflates binding in `onCreateView`, accesses views via `binding.viewId`, nulls `_binding` in `onDestroyView`.
+- **Navigation**: `nav_graph.xml` references fully-qualified fragment names (`com.coffeehub.ui.auth.LoginFragment`). Update if packages change.
+- **Role-based navigation**: After login, check `user.isAdmin` → navigate to admin dashboard or customer product list.
+- **No local DB currently**: Room dependencies present but unused. All data fetched from Firebase in real-time.
 
-If you update this file
-- Keep it short. Preserve paths above. Provide concrete file references and exact Gradle commands (Windows wrapper shown above).
+## Integration points
+- **Firebase Auth**: Injected via `FirebaseModule` → used in `AuthRepository` for login/register/logout.
+- **Firestore**: Injected via `FirebaseModule` → repositories use snapshot listeners for real-time data (`Flow<List<T>>`).
+- **Storage**: Injected for future image uploads (admin product images).
+- **Glide**: For loading product images from Firebase Storage URLs.
+
+## When to ask for clarification
+- **Package rename**: Requires moving all source files, updating `app/build.gradle.kts`, AndroidManifest, navigation graph, and clean build.
+- **Firestore schema changes**: Confirm migration strategy (existing data handling).
+- **New features**: Ask about UI placement (customer vs admin) and Firestore collection structure.
+
+## Where to look for examples
+- **Auth flow**: `ui/auth/LoginFragment.kt` + `viewmodel/AuthViewModel.kt` + `data/repository/AuthRepository.kt`
+- **Firebase reads**: `ProductRepository.getProducts()` uses `callbackFlow` with Firestore snapshot listener
+- **Firebase writes**: `OrderRepository.createOrder()` uses `await()` with Firestore `add()`
+
+## If you update this file
+Keep it concise. Preserve file paths. Use exact PowerShell commands (Windows wrapper: `.\gradlew.bat`).
 
 ---
-If anything in this file is unclear or you want the AI to perform a risky, mass refactor (package rename, applicationId rename, DB rename), ask the developer for an explicit confirmation and desired package/applicationId.
+**Note**: This project was refactored from a Finance Management app. Old code references to `com.example.financemanagement`, Retrofit, and .NET API have been removed. Focus is now **Firebase-first** for Coffee Hub sales app.

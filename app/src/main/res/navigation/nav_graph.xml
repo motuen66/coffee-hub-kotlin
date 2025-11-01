@@ -5,42 +5,49 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/loginFragment">
 
+    <!-- Auth Flow -->
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.financemanagement.ui.auth.LoginFragment"
-        android:label="fragment_login_new"
-        tools:layout="@layout/fragment_login_new">
-        <action
-            android:id="@+id/action_loginFragment_to_dashBoardFragment"
-            app:destination="@id/dashBoardFragment"
-            app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true" />
+        android:name="com.coffeehub.ui.auth.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_productList"
+            app:destination="@id/productListFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_loginFragment_to_adminDashboard"
+            app:destination="@id/adminDashboardFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.financemanagement.ui.auth.RegisterFragment"
-        android:label="fragment_register_new"
-        tools:layout="@layout/fragment_register_new">
+        android:name="com.coffeehub.ui.auth.RegisterFragment"
+        android:label="Register"
+        tools:layout="@layout/fragment_register">
         <action
-            android:id="@+id/action_registerFragment_to_dashBoardFragment"
-            app:destination="@id/dashBoardFragment"
-            app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_registerFragment_to_loginFragment"
-            app:destination="@id/loginFragment"
+            android:id="@+id/action_registerFragment_to_productList"
+            app:destination="@id/productListFragment"
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true" />
     </fragment>
 
+    <!-- Customer Flow - Placeholders -->
     <fragment
-        android:id="@+id/dashBoardFragment"
-        android:name="com.example.financemanagement.ui.dashboard.DashboardFragment"
-        android:label="fragment_dashboard_new"
-        tools:layout="@layout/fragment_dashboard_new" />
+        android:id="@+id/productListFragment"
+        android:name="com.coffeehub.ui.customer.ProductListFragment"
+        android:label="Menu" />
+
+    <!-- Admin Flow - Placeholders -->
+    <fragment
+        android:id="@+id/adminDashboardFragment"
+        android:name="com.coffeehub.ui.admin.AdminDashboardFragment"
+        android:label="Admin Dashboard" />
 
 </navigation>

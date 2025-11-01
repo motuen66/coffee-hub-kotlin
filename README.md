@@ -1,155 +1,147 @@
-# Finance Management Android App 💰
+# Coffee Hub ☕
 
-Mobile application for personal finance management built with modern Android development practices.
+Modern Android coffee shop app with Firebase backend for customer ordering and admin management.
+
+## 🚀 Quick Start
+
+```powershell
+# Clone repository
+git clone https://github.com/motuen66/coffe-hub-kotlin.git
+cd coffee_hub
+
+# Setup Firebase (REQUIRED)
+1. Create project: https://console.firebase.google.com
+2. Add Android app (package: com.coffeehub)
+3. Download google-services.json → app/google-services.json
+4. Enable services:
+   - Authentication → Email/Password
+   - Firestore Database → Start in test mode
+   - Storage → Start in test mode
+
+# Build & Run
+.\gradlew.bat assembleDebug
+.\gradlew.bat installDebug
+```
 
 ## 📱 Features
 
-- **Authentication**: User registration and login with JWT tokens
-- **Dashboard**: Overview of financial data
-- **Saving Goals**: Track and manage savings goals with progress tracking
-- **Transactions**: Record and view income/expense transactions
-- **Categories**: Organize transactions by categories
-- **Budgets**: Set and monitor spending budgets
-- **Reports**: Generate financial reports
+| Customer | Admin |
+|----------|-------|
+| Browse menu | Manage products (CRUD) |
+| Add to cart | Update order status |
+| Place orders | View dashboard stats |
+| Track order history | Revenue reports |
 
 ## 🛠️ Tech Stack
 
-### Architecture & Patterns
-- **MVVM (Model-View-ViewModel)** architecture
-- **Repository Pattern** for data layer abstraction
-- **Clean Architecture** with domain, data, and UI layers
+- **Kotlin** • MVVM • Clean Architecture
+- **Firebase**: Auth, Firestore, Storage, Analytics
+- **Hilt** (DI) • **Navigation Component** • **ViewBinding**
+- **Coroutines + Flow** • **Material Design** • **Glide**
 
-### Libraries & Frameworks
-- **Language**: Kotlin
-- **Dependency Injection**: Hilt/Dagger 2.51.1
-- **Networking**: 
-  - Retrofit 2.11.0
-  - OkHttp 4.12.0
-  - Gson converter
-- **Local Storage**:
-  - Room 2.5.2 (SQLite)
-  - DataStore Preferences 1.1.1 (JWT tokens)
-- **UI**: 
-  - ViewBinding
-  - Material Components 1.11.0
-  - Navigation Component 2.7.7
-- **Async**: Kotlin Coroutines + Flow
-
-### Backend Integration
-- .NET 8 API with MongoDB
-- Hosted on Azure
-- RESTful API endpoints
-
-## 📋 Prerequisites
-
-- Android Studio Hedgehog or newer
-- JDK 11 or higher
-- Android SDK (minSdk 24, targetSdk 34)
-- Kotlin 1.9.0+
-
-## 🚀 Getting Started
-
-### 1. Clone the repository
-```bash
-git clone https://github.com/YOUR_USERNAME/financemanagementandroid.git
-cd financemanagementandroid
-```
-
-### 2. Open in Android Studio
-- Open Android Studio
-- File → Open → Select project folder
-- Wait for Gradle sync to complete
-
-### 3. Configure API endpoint (Optional)
-The app is already configured with a demo backend API. If you want to use your own backend:
-```kotlin
-// app/src/main/java/com/example/financemanagement/utils/Constants.kt
-const val BASE_URL = "YOUR_BACKEND_URL"
-```
-
-### 4. Build and Run
-- Connect your Android device or start an emulator
-- Click Run (Shift + F10) or Debug (Shift + F9)
-
-## 🏗️ Project Structure
+## 📦 Project Structure
 
 ```
-app/
-├── src/main/java/com/example/financemanagement/
-│   ├── data/              # Data layer
-│   │   ├── local/         # Room database, DAOs, entities
-│   │   ├── remote/        # API service, DTOs
-│   │   └── repository/    # Repository implementations
-│   ├── di/                # Dependency injection modules
-│   ├── domain/            # Domain models and business logic
-│   │   └── model/         # Domain models
-│   ├── ui/                # UI layer
-│   │   ├── auth/          # Login & Register screens
-│   │   ├── dashboard/     # Dashboard screen
-│   │   └── main/          # MainActivity
-│   ├── viewmodel/         # ViewModels
-│   └── utils/             # Utility classes
-└── src/main/res/          # Resources (layouts, drawables, etc.)
+app/src/main/java/com/coffeehub/
+├── domain/model/          # User, Product, Order, OrderItem
+├── data/repository/       # AuthRepository, ProductRepository, OrderRepository
+├── viewmodel/             # AuthViewModel, ProductViewModel, OrderViewModel
+├── ui/
+│   ├── auth/             # LoginFragment, RegisterFragment
+│   ├── customer/         # ProductListFragment, CartFragment, OrderHistoryFragment
+│   └── admin/            # AdminDashboardFragment, ManageProductsFragment, ManageOrdersFragment
+└── di/                   # FirebaseModule, AppModule
 ```
 
-## 🔑 Key Components
+## 🔥 Firestore Schema
 
-### Authentication Flow
-1. User enters credentials
-2. ViewModel validates input
-3. Repository calls API
-4. JWT token saved to DataStore
-5. Token auto-injected in subsequent requests via Interceptor
+```javascript
+// Collections
+users {
+  userId: {
+    id: string,
+    email: string,
+    name: string,
+    isAdmin: boolean,
+    createdAt: timestamp
+  }
+}
 
-### Data Flow
+products {
+  productId: {
+    id: string,
+    name: string,
+    description: string,
+    price: number,
+    imageUrl: string,
+    category: string,
+    stock: number,
+    isAvailable: boolean,
+    createdAt: timestamp
+  }
+}
+
+orders {
+  orderId: {
+    id: string,
+    customerId: string,
+    customerName: string,
+    items: [OrderItem],
+    total: number,
+    status: "PENDING" | "PREPARING" | "READY" | "COMPLETED" | "CANCELLED",
+    timestamp: timestamp,
+    notes: string
+  }
+}
 ```
-UI (Fragment) → ViewModel → Repository → API Service / Room DAO
-                    ↓
-              StateFlow/Flow
-                    ↓
-          UI observes & updates
+
+## 🔐 Security (gitignore)
+
+**DO NOT COMMIT:**
+- `app/google-services.json` (contains API keys)
+- `local.properties` (SDK paths)
+- `secrets.properties` (custom secrets)
+- `*.keystore` (signing keys)
+
+**Template provided:** `app/google-services.json.template`
+
+## 🏗️ Build Commands (Windows PowerShell)
+
+```powershell
+.\gradlew.bat clean                    # Clean build artifacts
+.\gradlew.bat assembleDebug            # Build debug APK
+.\gradlew.bat installDebug             # Install on device/emulator
+.\gradlew.bat test                     # Run unit tests
 ```
 
-## 📦 Build Variants
+## 🐛 Troubleshooting
 
-- **Debug**: Development build with logging enabled
-- **Release**: Production build with ProGuard/R8 optimization
+**Build fails with "google-services.json not found":**
+- Download from Firebase Console → Project Settings → Your apps → Download `google-services.json`
+- Place in `app/` directory (same level as `build.gradle.kts`)
 
-## 🧪 Testing
+**Login shows "isAdmin: false" for admin user:**
+- Go to Firestore Console → `users` collection → your user document
+- Verify field name is exactly `isAdmin` (not `admin`)
+- Verify type is **boolean** `true` (not string "true")
 
-```bash
-# Unit tests
-./gradlew test
-
-# Instrumented tests
-./gradlew connectedAndroidTest
+**App crashes on launch:**
+```powershell
+# Clear app data and rebuild
+adb shell pm clear com.coffeehub
+.\gradlew.bat clean installDebug
 ```
-
-## 📝 API Endpoints
-
-- `POST /api/Account/login` - User login
-- `POST /api/Account/register` - User registration
-- `GET /api/Transactions` - Get all transactions
-- `GET /api/SavingGoals` - Get all saving goals
-- `GET /api/Categories` - Get all categories
-- `GET /api/Budgets` - Get all budgets
-- `GET /api/Reports` - Get financial reports
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+MIT License - See LICENSE file for details
 
 ## 👤 Author
 
-**Your Name**
-- GitHub: [@motuen66](https://github.com/motuen66)
+**Motuen66**  
+GitHub: [@motuen66](https://github.com/motuen66)  
+Repository: [coffe-hub-kotlin](https://github.com/motuen66/coffe-hub-kotlin)
 
-## 🙏 Acknowledgments
+---
 
-- Backend API powered by .NET 8 + MongoDB
-- Material Design guidelines
-- Android Jetpack libraries
+**Note:** This project was refactored from a Finance Management app. All references to the old codebase have been removed. Focus is now Firebase-first for Coffee Hub sales application.
