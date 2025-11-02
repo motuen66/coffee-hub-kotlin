@@ -25,9 +25,6 @@ class CartViewModel @Inject constructor(
     private val _deliveryFee = MutableLiveData<Double>(10000.0) // Fixed 10.000đ
     val deliveryFee: LiveData<Double> = _deliveryFee
 
-    private val _tax = MutableLiveData<Double>(0.0) // 10% of subtotal
-    val tax: LiveData<Double> = _tax
-
     private val _total = MutableLiveData<Double>(0.0)
     val total: LiveData<Double> = _total
 
@@ -67,14 +64,10 @@ class CartViewModel @Inject constructor(
         // Calculate subtotal
         val subtotalAmount = items.sumOf { it.totalPrice }
         
-        // Calculate tax (10% of subtotal)
-        val taxAmount = subtotalAmount * 0.10
-        
-        // Calculate total
-        val totalAmount = subtotalAmount + (_deliveryFee.value ?: 0.0) + taxAmount
+        // Calculate total (subtotal + delivery fee, no tax)
+        val totalAmount = subtotalAmount + (_deliveryFee.value ?: 0.0)
         
         _subtotal.value = subtotalAmount
-        _tax.value = taxAmount
         _total.value = totalAmount
     }
 }

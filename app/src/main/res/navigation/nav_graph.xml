@@ -76,7 +76,18 @@
         android:id="@+id/cartFragment"
         android:name="com.coffeehub.ui.customer.CartFragment"
         android:label="My Cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart">
+        <action
+            android:id="@+id/action_cartFragment_to_checkoutFragment"
+            app:destination="@id/checkoutFragment" />
+    </fragment>
+
+    <!-- Checkout Fragment -->
+    <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="com.coffeehub.ui.customer.CheckoutFragment"
+        android:label="Checkout"
+        tools:layout="@layout/fragment_checkout" />
 
     <!-- Profile Fragment -->
     <fragment
