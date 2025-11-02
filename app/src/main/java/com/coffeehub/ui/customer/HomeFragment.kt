@@ -10,6 +10,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -94,8 +95,17 @@ class HomeFragment : Fragment() {
     private fun setupRecyclerView() {
         productAdapter = ProductAdapter(
             onProductClick = { product ->
-                // TODO: Navigate to ProductDetailFragment
-                Toast.makeText(requireContext(), "Product clicked: ${product.name}", Toast.LENGTH_SHORT).show()
+                // Navigate to ProductDetailFragment with product data
+                val bundle = Bundle().apply {
+                    putString("productId", product.id)
+                    putString("productName", product.name)
+                    putString("productDescription", product.description)
+                    putDouble("productPrice", product.price)
+                    putString("productImageUrl", product.imageUrl)
+                    putString("productCategory", product.category)
+                    putDouble("productRating", product.rating)
+                }
+                findNavController().navigate(R.id.action_productList_to_productDetail, bundle)
             },
             onAddClick = { product ->
                 // TODO: Add to cart
