@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    
+    <!-- Coffee Cup -->
+    <path
+        android:fillColor="@color/gray_light"
+        android:pathData="M2,21 L22,21 L22,19 L2,19z" />
+    
+    <path
+        android:strokeColor="@color/gray_medium"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M6,19 L6,9 C6,8.45 6.45,8 7,8 L17,8 C17.55,8 18,8.45 18,9 L18,19" />
+    
+    <path
+        android:strokeColor="@color/gray_medium"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M18,11 L20,11 C20.55,11 21,11.45 21,12 L21,13 C21,13.55 20.55,14 20,14 L18,14" />
+    
+    <!-- Steam -->
+    <path
+        android:strokeColor="@color/gray_light"
+        android:strokeWidth="1.2"
+        android:strokeLineCap="round"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M9,5 C9,4 9.5,3 9.5,2" />
+    
+    <path
+        android:strokeColor="@color/gray_light"
+        android:strokeWidth="1.2"
+        android:strokeLineCap="round"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M12,5 C12,4 12.5,3 12.5,2" />
+    
+    <path
+        android:strokeColor="@color/gray_light"
+        android:strokeWidth="1.2"
+        android:strokeLineCap="round"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M15,5 C15,4 15.5,3 15.5,2" />
+</vector>

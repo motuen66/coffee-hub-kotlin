@@ -11,10 +11,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.coffeehub.R
 import com.coffeehub.databinding.FragmentLoginBinding
+import com.coffeehub.util.SessionManager
 import com.coffeehub.viewmodel.AuthUiState
 import com.coffeehub.viewmodel.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
@@ -22,6 +24,9 @@ class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AuthViewModel by viewModels()
+    
+    @Inject
+    lateinit var sessionManager: SessionManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -81,15 +86,22 @@ class LoginFragment : Fragment() {
                         binding.progress.visibility = View.GONE
                         binding.btnLogin.isEnabled = true
                         
-                        // Debug: Show user info
-                        Toast.makeText(requireContext(), "User: ${state.user.email}, isAdmin: ${state.user.isAdmin}", Toast.LENGTH_LONG).show()
+                        // Save session with Remember Me option
+                        val rememberMe = binding.checkboxRememberMe.isChecked
+                        sessionManager.saveSession(
+                            userId = state.user.id,
+                            email = state.user.email,
+                            name = state.user.name,
+                            isAdmin = state.user.isAdmin,
+                            rememberMe = rememberMe
+                        )
+                        
+                        Toast.makeText(requireContext(), "Login successful!", Toast.LENGTH_SHORT).show()
                         
                         // Navigate based on user role
                         if (state.user.isAdmin) {
-                            Toast.makeText(requireContext(), "Navigating to Admin Dashboard", Toast.LENGTH_SHORT).show()
                             findNavController().navigate(R.id.action_loginFragment_to_adminDashboard)
                         } else {
-                            Toast.makeText(requireContext(), "Navigating to Product List", Toast.LENGTH_SHORT).show()
                             findNavController().navigate(R.id.action_loginFragment_to_productList)
                         }
                         viewModel.resetState()

@@ -10,6 +10,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -94,8 +95,17 @@ class HomeFragment : Fragment() {
     private fun setupRecyclerView() {
         productAdapter = ProductAdapter(
             onProductClick = { product ->
-                // TODO: Navigate to ProductDetailFragment
-                Toast.makeText(requireContext(), "Product clicked: ${product.name}", Toast.LENGTH_SHORT).show()
+                // Navigate to ProductDetailFragment with product data
+                val bundle = Bundle().apply {
+                    putString("productId", product.id)
+                    putString("productName", product.name)
+                    putString("productDescription", product.description)
+                    putDouble("productPrice", product.price)
+                    putString("productImageUrl", product.imageUrl)
+                    putString("productCategory", product.category)
+                    putDouble("productRating", product.rating)
+                }
+                findNavController().navigate(R.id.action_productList_to_productDetail, bundle)
             },
             onAddClick = { product ->
                 // TODO: Add to cart
@@ -191,25 +201,35 @@ class HomeFragment : Fragment() {
                 when (state) {
                     is ProductUiState.Idle -> {
                         binding.progress.visibility = View.GONE
+                        binding.shimmerLayout.visibility = View.GONE
                     }
                     is ProductUiState.Loading -> {
-                        binding.progress.visibility = View.VISIBLE
-                        binding.tvEmpty.visibility = View.GONE
+                        // Show shimmer skeleton instead of spinner
+                        binding.progress.visibility = View.GONE
+                        binding.shimmerLayout.visibility = View.VISIBLE
+                        binding.emptyStateLayout.visibility = View.GONE
+                        binding.rvPopularCoffees.visibility = View.GONE
                     }
                     is ProductUiState.Success -> {
                         binding.progress.visibility = View.GONE
+                        binding.shimmerLayout.visibility = View.GONE
                         
                         if (state.products.isEmpty()) {
-                            binding.tvEmpty.visibility = View.VISIBLE
+                            // Show beautiful empty state
+                            binding.emptyStateLayout.visibility = View.VISIBLE
                             binding.rvPopularCoffees.visibility = View.GONE
                         } else {
-                            binding.tvEmpty.visibility = View.GONE
+                            // Show products
+                            binding.emptyStateLayout.visibility = View.GONE
                             binding.rvPopularCoffees.visibility = View.VISIBLE
                             productAdapter.submitList(state.products)
                         }
                     }
                     is ProductUiState.Error -> {
                         binding.progress.visibility = View.GONE
+                        binding.shimmerLayout.visibility = View.GONE
+                        binding.emptyStateLayout.visibility = View.VISIBLE
+                        
                         Toast.makeText(
                             requireContext(),
                             "Error: ${state.message}",

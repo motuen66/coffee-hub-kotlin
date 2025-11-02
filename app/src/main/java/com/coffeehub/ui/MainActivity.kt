@@ -7,12 +7,17 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.coffeehub.R
 import com.coffeehub.databinding.ActivityMainBinding
+import com.coffeehub.util.SessionManager
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    
+    @Inject
+    lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +27,20 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
+
+        // Auto-login: Check if user is already logged in with Remember Me
+        if (savedInstanceState == null) { // Only on first launch
+            if (sessionManager.isLoggedIn() && sessionManager.isRememberMeEnabled()) {
+                // Navigate to appropriate screen based on user role
+                val startDestination = if (sessionManager.isAdmin()) {
+                    R.id.adminDashboardFragment
+                } else {
+                    R.id.productListFragment
+                }
+                
+                navController.navigate(startDestination)
+            }
+        }
 
         // Setup bottom navigation with NavController
         binding.bottomNavigation.setupWithNavController(navController)
