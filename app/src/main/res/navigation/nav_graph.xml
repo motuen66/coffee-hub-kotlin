@@ -68,6 +68,19 @@
             android:defaultValue="" />
     </fragment>
 
+    <!-- Profile Fragment -->
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.coffeehub.ui.customer.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profile_to_login"
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+
     <!-- Admin Flow -->
     <fragment
         android:id="@+id/adminDashboardFragment"
