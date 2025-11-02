@@ -2,12 +2,14 @@ package com.coffeehub.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.coffeehub.R
 import com.coffeehub.databinding.ActivityMainBinding
 import com.coffeehub.util.SessionManager
+import com.coffeehub.viewmodel.CartViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -18,6 +20,8 @@ class MainActivity : AppCompatActivity() {
     
     @Inject
     lateinit var sessionManager: SessionManager
+    
+    private val cartViewModel: CartViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +48,12 @@ class MainActivity : AppCompatActivity() {
 
         // Setup bottom navigation with NavController
         binding.bottomNavigation.setupWithNavController(navController)
+        
+        // Observe cart items to update badge
+        cartViewModel.cartItems.observe(this) { items ->
+            val itemCount = items.sumOf { it.quantity }
+            updateCartBadge(itemCount)
+        }
 
         // Show/hide bottom navigation based on destination
         navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -63,6 +73,18 @@ class MainActivity : AppCompatActivity() {
                     binding.bottomNavigation.visibility = View.VISIBLE
                 }
             }
+        }
+    }
+    
+    private fun updateCartBadge(count: Int) {
+        val badge = binding.bottomNavigation.getOrCreateBadge(R.id.cartFragment)
+        if (count > 0) {
+            badge.isVisible = true
+            badge.number = count
+            badge.backgroundColor = getColor(R.color.coffee_brown)
+            badge.badgeTextColor = getColor(R.color.white)
+        } else {
+            badge.isVisible = false
         }
     }
 }
