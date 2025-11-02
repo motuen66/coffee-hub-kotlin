@@ -13,7 +13,9 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.coffeehub.R
 import com.coffeehub.databinding.FragmentProductDetailBinding
+import com.coffeehub.domain.model.CartItem
 import com.coffeehub.domain.model.Product
+import com.coffeehub.viewmodel.CartViewModel
 import com.coffeehub.viewmodel.ProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -30,7 +32,8 @@ class ProductDetailFragment : Fragment() {
     private var _binding: FragmentProductDetailBinding? = null
     private val binding get() = _binding!!
     
-    private val viewModel: ProductViewModel by viewModels()
+    private val productViewModel: ProductViewModel by viewModels()
+    private val cartViewModel: CartViewModel by viewModels()
     
     private var selectedSize: String = "Medium"
     private var quantity: Int = 1
@@ -203,16 +206,36 @@ class ProductDetailFragment : Fragment() {
     }
     
     private fun addToCart() {
-        // TODO: Implement add to cart functionality
-        // viewModel.addToCart(productId, selectedSize, quantity)
+        // Calculate price based on size
+        val sizeMultiplier = when (selectedSize) {
+            "Small" -> 0.8
+            "Medium" -> 1.0
+            "Large" -> 1.2
+            else -> 1.0
+        }
+        
+        val itemPrice = productPrice * sizeMultiplier
+        
+        // Create cart item
+        val cartItem = CartItem(
+            productId = productId,
+            productName = productName,
+            productImage = productImageUrl,
+            price = itemPrice,
+            size = selectedSize,
+            quantity = quantity
+        )
+        
+        // Add to cart via ViewModel
+        cartViewModel.addItem(cartItem)
         
         Toast.makeText(
             requireContext(),
-            "Added to cart: $quantity x $productName ($selectedSize)",
+            "Added $quantity x $productName ($selectedSize) to cart",
             Toast.LENGTH_SHORT
         ).show()
         
-        // Navigate back or to cart
+        // Navigate back to home
         findNavController().navigateUp()
     }
     
