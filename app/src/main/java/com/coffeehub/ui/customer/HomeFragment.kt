@@ -191,25 +191,35 @@ class HomeFragment : Fragment() {
                 when (state) {
                     is ProductUiState.Idle -> {
                         binding.progress.visibility = View.GONE
+                        binding.shimmerLayout.visibility = View.GONE
                     }
                     is ProductUiState.Loading -> {
-                        binding.progress.visibility = View.VISIBLE
-                        binding.tvEmpty.visibility = View.GONE
+                        // Show shimmer skeleton instead of spinner
+                        binding.progress.visibility = View.GONE
+                        binding.shimmerLayout.visibility = View.VISIBLE
+                        binding.emptyStateLayout.visibility = View.GONE
+                        binding.rvPopularCoffees.visibility = View.GONE
                     }
                     is ProductUiState.Success -> {
                         binding.progress.visibility = View.GONE
+                        binding.shimmerLayout.visibility = View.GONE
                         
                         if (state.products.isEmpty()) {
-                            binding.tvEmpty.visibility = View.VISIBLE
+                            // Show beautiful empty state
+                            binding.emptyStateLayout.visibility = View.VISIBLE
                             binding.rvPopularCoffees.visibility = View.GONE
                         } else {
-                            binding.tvEmpty.visibility = View.GONE
+                            // Show products
+                            binding.emptyStateLayout.visibility = View.GONE
                             binding.rvPopularCoffees.visibility = View.VISIBLE
                             productAdapter.submitList(state.products)
                         }
                     }
                     is ProductUiState.Error -> {
                         binding.progress.visibility = View.GONE
+                        binding.shimmerLayout.visibility = View.GONE
+                        binding.emptyStateLayout.visibility = View.VISIBLE
+                        
                         Toast.makeText(
                             requireContext(),
                             "Error: ${state.message}",
