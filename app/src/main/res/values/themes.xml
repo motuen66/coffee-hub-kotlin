@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Base application theme using AppCompat for backward compatibility -->
+    <!-- Coffee Hub Theme with coffee-inspired colors -->
     <style name="Theme.CoffeeHub" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <!-- Primary brand color (Coffee Brown) -->
+        <item name="colorPrimary">@color/coffee_brown</item>
+        <item name="colorPrimaryVariant">@color/dark_coffee</item>
         <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
+        
+        <!-- Secondary brand color (Cream Beige) -->
+        <item name="colorSecondary">@color/cream_beige</item>
+        <item name="colorSecondaryVariant">@color/coffee_brown</item>
+        <item name="colorOnSecondary">@color/dark_coffee</item>
+        
+        <!-- Surface & Background -->
+        <item name="colorSurface">@color/light_cream</item>
+        <item name="colorOnSurface">@color/dark_coffee</item>
+        <item name="android:colorBackground">@color/light_cream</item>
+        
         <!-- Status bar color -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">@color/coffee_brown</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <!-- Rounded Image Style for Banner -->
+    <style name="RoundedImageView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20dp</item>
     </style>
 </resources>

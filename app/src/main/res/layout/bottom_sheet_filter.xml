@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@color/light_cream">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="24dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Filter &amp; Sort"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/dark_coffee"
+            android:fontFamily="sans-serif-medium" />
+
+        <ImageButton
+            android:id="@+id/btnClose"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:tint="@color/dark_coffee"
+            android:contentDescription="Close filter" />
+    </LinearLayout>
+
+    <!-- Sort By Section -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sort By"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/dark_coffee"
+        android:layout_marginBottom="12dp" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/chipGroupSort"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:singleSelection="true"
+        app:chipSpacing="8dp"
+        android:layout_marginBottom="24dp">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipSortPriceLow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price: Low to High"
+            android:checkable="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipSortPriceHigh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price: High to Low"
+            android:checkable="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipSortNameAZ"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name: A-Z"
+            android:checkable="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipSortNameZA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name: Z-A"
+            android:checkable="true" />
+    </com.google.android.material.chip.ChipGroup>
+
+    <!-- Price Range Section -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Price Range"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/dark_coffee"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:id="@+id/tvPriceRange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="₫20,000 - ₫100,000"
+        android:textSize="14sp"
+        android:textColor="@color/coffee_brown"
+        android:layout_marginBottom="8dp" />
+
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/sliderPriceRange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:valueFrom="0.0"
+        android:valueTo="150000.0"
+        android:stepSize="5000.0"
+        app:values="@array/default_price_range"
+        app:labelBehavior="gone"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Availability Section -->
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchAvailableOnly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show available products only"
+        android:textSize="15sp"
+        android:textColor="@color/dark_coffee"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Action Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:weightSum="2">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnReset"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Reset"
+            android:textColor="@color/coffee_brown"
+            app:backgroundTint="@color/white"
+            app:strokeColor="@color/coffee_brown"
+            app:strokeWidth="1dp"
+            app:cornerRadius="8dp"
+            android:layout_marginEnd="8dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnApply"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Apply Filter"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/coffee_brown"
+            app:cornerRadius="8dp"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -38,13 +38,14 @@
             app:popUpToInclusive="true" />
     </fragment>
 
-    <!-- Customer Flow - Placeholders -->
+    <!-- Customer Flow -->
     <fragment
         android:id="@+id/productListFragment"
-        android:name="com.coffeehub.ui.customer.ProductListFragment"
-        android:label="Menu" />
+        android:name="com.coffeehub.ui.customer.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home" />
 
-    <!-- Admin Flow - Placeholders -->
+    <!-- Admin Flow -->
     <fragment
         android:id="@+id/adminDashboardFragment"
         android:name="com.coffeehub.ui.admin.AdminDashboardFragment"
