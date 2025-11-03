@@ -152,6 +152,7 @@ class CheckoutFragment : Fragment() {
                         productId = cartItem.productId,
                         productName = cartItem.productName,
                         imageUrl = cartItem.productImage,
+                        size = cartItem.size,
                         quantity = cartItem.quantity,
                         price = cartItem.price
                     )

@@ -111,18 +111,63 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_profile_to_adminDashboard"
+            app:destination="@id/adminDashboardFragment" />
+        <action
+            android:id="@+id/action_profile_to_manageProducts"
+            app:destination="@id/manageProductsFragment" />
+        <action
+            android:id="@+id/action_profile_to_manageOrders"
+            app:destination="@id/manageOrdersFragment" />
     </fragment>
 
     <!-- Admin Flow -->
     <fragment
         android:id="@+id/adminDashboardFragment"
         android:name="com.coffeehub.ui.admin.AdminDashboardFragment"
-        android:label="Admin Dashboard" />
+        android:label="Admin Dashboard">
+        <action
+            android:id="@+id/action_adminDashboard_to_manageProducts"
+            app:destination="@id/manageProductsFragment" />
+        <action
+            android:id="@+id/action_adminDashboard_to_manageOrders"
+            app:destination="@id/manageOrdersFragment" />
+        <action
+            android:id="@+id/action_adminDashboard_to_profile"
+            app:destination="@id/profileFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/manageProductsFragment"
         android:name="com.coffeehub.ui.admin.ManageProductsFragment"
         android:label="Manage Products"
-        tools:layout="@layout/fragment_manage_products" />
+        tools:layout="@layout/fragment_manage_products">
+        <action
+            android:id="@+id/action_manageProducts_to_adminDashboard"
+            app:destination="@id/adminDashboardFragment" />
+        <action
+            android:id="@+id/action_manageProducts_to_manageOrders"
+            app:destination="@id/manageOrdersFragment" />
+        <action
+            android:id="@+id/action_manageProducts_to_profile"
+            app:destination="@id/profileFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/manageOrdersFragment"
+        android:name="com.coffeehub.ui.admin.ManageOrdersFragment"
+        android:label="Manage Orders"
+        tools:layout="@layout/fragment_manage_orders">
+        <action
+            android:id="@+id/action_manageOrders_to_adminDashboard"
+            app:destination="@id/adminDashboardFragment" />
+        <action
+            android:id="@+id/action_manageOrders_to_manageProducts"
+            app:destination="@id/manageProductsFragment" />
+        <action
+            android:id="@+id/action_manageOrders_to_profile"
+            app:destination="@id/profileFragment" />
+    </fragment>
 
 </navigation>

@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
 
         // Setup bottom navigation with NavController
         binding.bottomNavigation.setupWithNavController(navController)
+        binding.adminBottomNavigation.setupWithNavController(navController)
         
         // Observe cart items to update badge
         cartViewModel.cartItems.observe(this) { items ->
@@ -57,20 +58,30 @@ class MainActivity : AppCompatActivity() {
 
         // Show/hide bottom navigation based on destination
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.productListFragment -> {
-                    // Show bottom nav for customer screens
-                    binding.bottomNavigation.visibility = View.VISIBLE
-                }
+            // Check if user is admin
+            val isAdmin = sessionManager.isAdmin()
+            
+            val isAuthScreen = when (destination.id) {
                 R.id.loginFragment,
-                R.id.registerFragment,
-                R.id.adminDashboardFragment -> {
-                    // Hide bottom nav for auth and admin screens
+                R.id.registerFragment -> true
+                else -> false
+            }
+            
+            when {
+                isAuthScreen -> {
+                    // Hide both navs for auth screens
                     binding.bottomNavigation.visibility = View.GONE
+                    binding.adminBottomNavigation.visibility = View.GONE
+                }
+                isAdmin -> {
+                    // Show admin nav for all admin destinations
+                    binding.bottomNavigation.visibility = View.GONE
+                    binding.adminBottomNavigation.visibility = View.VISIBLE
                 }
                 else -> {
-                    // Default: show for other customer screens
+                    // Show customer nav for all customer destinations
                     binding.bottomNavigation.visibility = View.VISIBLE
+                    binding.adminBottomNavigation.visibility = View.GONE
                 }
             }
         }

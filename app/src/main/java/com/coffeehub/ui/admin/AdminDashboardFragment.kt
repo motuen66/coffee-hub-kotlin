@@ -43,17 +43,11 @@ class AdminDashboardFragment : Fragment() {
     
     private fun setupListeners() {
         binding.btnManageProducts.setOnClickListener {
-            findNavController().navigate(R.id.manageProductsFragment)
+            findNavController().navigate(R.id.action_adminDashboard_to_manageProducts)
         }
         
         binding.btnManageOrders.setOnClickListener {
-            Toast.makeText(
-                requireContext(),
-                "Manage Orders screen coming soon!",
-                Toast.LENGTH_SHORT
-            ).show()
-            // TODO: Navigate to ManageOrdersFragment when ready
-            // findNavController().navigate(R.id.manageOrdersFragment)
+            findNavController().navigate(R.id.action_adminDashboard_to_manageOrders)
         }
     }
     
