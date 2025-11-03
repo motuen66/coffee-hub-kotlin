@@ -31,19 +31,29 @@ class OrderViewModel @Inject constructor(
 
     fun loadOrdersByCustomer(customerId: String) {
         viewModelScope.launch {
-            orderRepository.getOrdersByCustomer(customerId)
-                .collect { orders ->
-                    _uiState.value = OrderUiState.Success(orders)
-                }
+            try {
+                _uiState.value = OrderUiState.Loading
+                orderRepository.getOrdersByCustomer(customerId)
+                    .collect { orders ->
+                        _uiState.value = OrderUiState.Success(orders)
+                    }
+            } catch (e: Exception) {
+                _uiState.value = OrderUiState.Error(e.message ?: "Failed to load orders")
+            }
         }
     }
 
     fun loadAllOrders() {
         viewModelScope.launch {
-            orderRepository.getAllOrders()
-                .collect { orders ->
-                    _uiState.value = OrderUiState.Success(orders)
-                }
+            try {
+                _uiState.value = OrderUiState.Loading
+                orderRepository.getAllOrders()
+                    .collect { orders ->
+                        _uiState.value = OrderUiState.Success(orders)
+                    }
+            } catch (e: Exception) {
+                _uiState.value = OrderUiState.Error(e.message ?: "Failed to load orders")
+            }
         }
     }
 

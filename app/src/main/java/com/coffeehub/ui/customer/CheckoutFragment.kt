@@ -212,8 +212,8 @@ class CheckoutFragment : Fragment() {
                 // Clear cart
                 cartViewModel.clearCart()
                 
-                // Navigate to orders screen
-                findNavController().navigate(R.id.navigation_orders)
+                // Navigate to order history
+                findNavController().navigate(R.id.action_checkoutFragment_to_orderHistory)
             }
             .setNegativeButton("Back to Home") { _, _ ->
                 // Clear cart

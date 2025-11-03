@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Header Row: Order ID + Status -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/tvOrderId"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Order #12345"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/dark_coffee"
+                android:fontFamily="sans-serif-medium"
+                tools:text="Order #12345" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PENDING"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                app:chipBackgroundColor="@color/coffee_brown"
+                app:chipMinHeight="28dp"
+                tools:text="PENDING" />
+
+        </LinearLayout>
+
+        <!-- Date & Time -->
+        <TextView
+            android:id="@+id/tvOrderDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nov 2, 2025 - 14:30"
+            android:textSize="13sp"
+            android:textColor="@color/gray_medium"
+            android:layout_marginBottom="8dp"
+            tools:text="Nov 2, 2025 - 14:30" />
+
+        <!-- Items Summary -->
+        <TextView
+            android:id="@+id/tvItemsSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3 items"
+            android:textSize="14sp"
+            android:textColor="@color/dark_coffee"
+            android:layout_marginBottom="4dp"
+            tools:text="3 items • Cappuccino x2, Latte x1" />
+
+        <!-- Payment Method -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Payment: "
+                android:textSize="13sp"
+                android:textColor="@color/gray_medium" />
+
+            <TextView
+                android:id="@+id/tvPaymentMethod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cash"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="@color/dark_coffee"
+                tools:text="Cash" />
+
+        </LinearLayout>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_light"
+            android:layout_marginVertical="8dp" />
+
+        <!-- Footer Row: Total + View Details -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total"
+                    android:textSize="12sp"
+                    android:textColor="@color/gray_medium" />
+
+                <TextView
+                    android:id="@+id/tvOrderTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="329,200đ"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/coffee_brown"
+                    android:fontFamily="sans-serif-medium"
+                    tools:text="329,200đ" />
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnViewDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View Details"
+                android:textSize="13sp"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/coffee_brown"
+                app:cornerRadius="8dp"
+                style="@style/Widget.Material3.Button" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

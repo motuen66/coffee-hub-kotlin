@@ -20,7 +20,6 @@ class OrderRepository @Inject constructor(
     fun getOrdersByCustomer(customerId: String): Flow<List<Order>> = callbackFlow {
         val listener = ordersCollection
             .whereEqualTo("customerId", customerId)
-            .orderBy("timestamp", Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {
                     close(error)
@@ -28,7 +27,7 @@ class OrderRepository @Inject constructor(
                 }
                 val orders = snapshot?.documents?.mapNotNull { doc ->
                     doc.toObject(Order::class.java)?.copy(id = doc.id)
-                } ?: emptyList()
+                }?.sortedByDescending { it.timestamp } ?: emptyList()
                 trySend(orders)
             }
         awaitClose { listener.remove() }
@@ -53,7 +52,6 @@ class OrderRepository @Inject constructor(
     fun getPendingOrders(): Flow<List<Order>> = callbackFlow {
         val listener = ordersCollection
             .whereEqualTo("status", OrderStatus.PENDING.name)
-            .orderBy("timestamp", Query.Direction.ASCENDING)
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {
                     close(error)
@@ -61,7 +59,7 @@ class OrderRepository @Inject constructor(
                 }
                 val orders = snapshot?.documents?.mapNotNull { doc ->
                     doc.toObject(Order::class.java)?.copy(id = doc.id)
-                } ?: emptyList()
+                }?.sortedBy { it.timestamp } ?: emptyList()
                 trySend(orders)
             }
         awaitClose { listener.remove() }
