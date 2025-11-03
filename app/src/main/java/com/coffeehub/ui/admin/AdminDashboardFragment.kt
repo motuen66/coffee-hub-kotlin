@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.coffeehub.R
 import com.coffeehub.data.util.DatabaseImporter
 import com.coffeehub.databinding.FragmentAdminDashboardBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,7 +36,25 @@ class AdminDashboardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        
+        setupListeners()
         checkAndImportData()
+    }
+    
+    private fun setupListeners() {
+        binding.btnManageProducts.setOnClickListener {
+            findNavController().navigate(R.id.manageProductsFragment)
+        }
+        
+        binding.btnManageOrders.setOnClickListener {
+            Toast.makeText(
+                requireContext(),
+                "Manage Orders screen coming soon!",
+                Toast.LENGTH_SHORT
+            ).show()
+            // TODO: Navigate to ManageOrdersFragment when ready
+            // findNavController().navigate(R.id.manageOrdersFragment)
+        }
     }
     
     /**

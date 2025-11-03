@@ -1,9 +1,10 @@
 package com.coffeehub.data.repository
 
+import android.net.Uri
 import com.coffeehub.domain.model.Product
+import com.coffeehub.util.ImageStorageHelper
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -14,7 +15,7 @@ import javax.inject.Singleton
 @Singleton
 class ProductRepository @Inject constructor(
     private val firestore: FirebaseFirestore,
-    private val storage: FirebaseStorage
+    private val imageStorageHelper: ImageStorageHelper
 ) {
     private val productsCollection = firestore.collection("products")
 
@@ -86,5 +87,35 @@ class ProductRepository @Inject constructor(
                 trySend(products)
             }
         awaitClose { listener.remove() }
+    }
+
+    /**
+     * Save product image to internal storage
+     * @return local file path
+     */
+    suspend fun saveProductImage(imageUri: Uri, productId: String): Result<String> {
+        return try {
+            val imagePath = imageStorageHelper.saveProductImage(imageUri, productId)
+            if (imagePath.isNotEmpty()) {
+                Result.success(imagePath)
+            } else {
+                Result.failure(Exception("Failed to save image to internal storage"))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    /**
+     * Delete product image from internal storage
+     */
+    suspend fun deleteProductImage(imagePath: String): Result<Unit> {
+        return try {
+            imageStorageHelper.deleteProductImage(imagePath)
+            Result.success(Unit)
+        } catch (e: Exception) {
+            // Image deletion failure shouldn't block product deletion
+            Result.success(Unit)
+        }
     }
 }

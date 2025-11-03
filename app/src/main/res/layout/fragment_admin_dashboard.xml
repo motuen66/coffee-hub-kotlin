@@ -35,25 +35,26 @@
         android:id="@+id/btnManageProducts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Manage Products"
+        android:text="MANAGE PRODUCTS"
         android:textSize="16sp"
         android:padding="16dp"
         app:cornerRadius="8dp"
         app:icon="@android:drawable/ic_menu_edit"
         android:layout_marginBottom="12dp"
-        android:enabled="false" />
+        android:backgroundTint="@color/coffee_brown" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnManageOrders"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Manage Orders"
+        android:text="MANAGE ORDERS"
         android:textSize="16sp"
         android:padding="16dp"
         app:cornerRadius="8dp"
         app:icon="@android:drawable/ic_menu_agenda"
         style="@style/Widget.Material3.Button.OutlinedButton"
-        android:enabled="false" />
+        app:strokeColor="@color/coffee_brown"
+        android:textColor="@color/coffee_brown" />
         
     <TextView
         android:layout_width="wrap_content"
