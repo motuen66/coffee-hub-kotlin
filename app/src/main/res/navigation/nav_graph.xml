@@ -76,7 +76,29 @@
         android:id="@+id/cartFragment"
         android:name="com.coffeehub.ui.customer.CartFragment"
         android:label="My Cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart">
+        <action
+            android:id="@+id/action_cartFragment_to_checkoutFragment"
+            app:destination="@id/checkoutFragment" />
+    </fragment>
+
+    <!-- Checkout Fragment -->
+    <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="com.coffeehub.ui.customer.CheckoutFragment"
+        android:label="Checkout"
+        tools:layout="@layout/fragment_checkout">
+        <action
+            android:id="@+id/action_checkoutFragment_to_orderHistory"
+            app:destination="@id/orderHistoryFragment" />
+    </fragment>
+
+    <!-- Order History Fragment -->
+    <fragment
+        android:id="@+id/orderHistoryFragment"
+        android:name="com.coffeehub.ui.customer.OrderHistoryFragment"
+        android:label="My Orders"
+        tools:layout="@layout/fragment_order_history" />
 
     <!-- Profile Fragment -->
     <fragment

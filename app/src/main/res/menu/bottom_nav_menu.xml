@@ -11,7 +11,7 @@
         android:title="Cart" />
     
     <item
-        android:id="@+id/navigation_orders"
+        android:id="@+id/orderHistoryFragment"
         android:icon="@android:drawable/ic_menu_recent_history"
         android:title="Orders" />
     

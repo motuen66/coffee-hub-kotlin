@@ -152,7 +152,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginBottom="12dp">
+                        android:layout_marginBottom="16dp">
 
                         <TextView
                             android:layout_width="0dp"
@@ -171,33 +171,6 @@
                             android:textStyle="bold"
                             android:textColor="@color/dark_coffee"
                             tools:text="$10" />
-
-                    </LinearLayout>
-
-                    <!-- Total Tax Row -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="16dp">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Total Tax"
-                            android:textSize="14sp"
-                            android:textColor="@color/dark_coffee" />
-
-                        <TextView
-                            android:id="@+id/tvTax"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="$30"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/dark_coffee"
-                            tools:text="$30" />
 
                     </LinearLayout>
 

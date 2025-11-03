@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.coffeehub.R
 import com.coffeehub.databinding.FragmentCartBinding
 import com.coffeehub.viewmodel.CartViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -63,15 +64,8 @@ class CartFragment : Fragment() {
 
         // Checkout button
         binding.btnCheckout.setOnClickListener {
-            // TODO: Navigate to CheckoutFragment
-            // findNavController().navigate(R.id.action_cartFragment_to_checkoutFragment)
-            
-            // Temporary: Show coming soon message
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Coming Soon")
-                .setMessage("Checkout feature will be implemented in the next phase.")
-                .setPositiveButton("OK", null)
-                .show()
+            // Navigate to CheckoutFragment
+            findNavController().navigate(R.id.action_cartFragment_to_checkoutFragment)
         }
     }
 
@@ -102,11 +96,6 @@ class CartFragment : Fragment() {
         // Delivery fee
         cartViewModel.deliveryFee.observe(viewLifecycleOwner) { fee ->
             binding.tvDeliveryFee.text = formatPrice(fee)
-        }
-
-        // Tax
-        cartViewModel.tax.observe(viewLifecycleOwner) { tax ->
-            binding.tvTax.text = formatPrice(tax)
         }
 
         // Total
