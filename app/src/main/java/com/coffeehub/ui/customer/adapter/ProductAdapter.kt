@@ -10,6 +10,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.coffeehub.R
 import com.coffeehub.databinding.ItemProductCardBinding
 import com.coffeehub.domain.model.Product
+import java.io.File
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -50,9 +51,22 @@ class ProductAdapter(
                     .format(product.price)
                 tvPrice.text = priceFormatted
 
-                // Load product image with Glide
+                // Load product image with Glide - handle both local file and URL
+                val imageSource = when {
+                    product.imageUrl.isEmpty() -> R.drawable.ic_launcher_background
+                    product.imageUrl.startsWith("/") || product.imageUrl.startsWith("file://") -> {
+                        // Local file path
+                        File(product.imageUrl)
+                    }
+                    product.imageUrl.startsWith("http") -> {
+                        // URL (Firebase Storage or external)
+                        product.imageUrl
+                    }
+                    else -> R.drawable.ic_launcher_background
+                }
+                
                 Glide.with(ivProduct.context)
-                    .load(product.imageUrl)
+                    .load(imageSource)
                     .placeholder(R.drawable.ic_launcher_background)
                     .error(R.drawable.ic_launcher_background)
                     .transition(DrawableTransitionOptions.withCrossFade())

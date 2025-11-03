@@ -119,4 +119,10 @@
         android:name="com.coffeehub.ui.admin.AdminDashboardFragment"
         android:label="Admin Dashboard" />
 
+    <fragment
+        android:id="@+id/manageProductsFragment"
+        android:name="com.coffeehub.ui.admin.ManageProductsFragment"
+        android:label="Manage Products"
+        tools:layout="@layout/fragment_manage_products" />
+
 </navigation>
