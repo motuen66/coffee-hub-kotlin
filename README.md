@@ -1,4 +1,4 @@
-# Coffee Hub ☕
+# Coffee Hub - My "Full-time vibe coding app" (●'◡'●)☕
 
 Modern Android coffee shop app with Firebase backend for customer ordering and admin management.
 
